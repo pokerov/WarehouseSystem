@@ -8,7 +8,7 @@ import java.io.File;
 import java.sql.*;
 
 public class FirstRunWindow implements SelectionListener {
-  
+
   private Display d;
   private Shell window;
   private Button bCreateDB, bCreateTable, bClose;
@@ -20,13 +20,13 @@ public class FirstRunWindow implements SelectionListener {
     args = c_args;
     d = Display.getCurrent();
     window = new Shell(d, SWT.DIALOG_TRIM);
-    window.setText("Първоначално включване");
+    window.setText("First Run Wizzard");
     window.setLayout(new GridLayout(2, false));
     try {
       window.setImage(new Image(window.getDisplay(), "icons" + File.separator + "icon_big.png"));
     }
     catch (Exception e) {}
-    
+
     try {
       sql = new SQLManager(args[0], args[1], args[2], args[3]);
     }
@@ -36,9 +36,9 @@ public class FirstRunWindow implements SelectionListener {
     catch (Exception e) {
       System.err.println("Error: " + e.getMessage());
     }
-    
+
     addUI();
-    
+
     window.pack();
     centerWindow(window);
     window.open();
@@ -46,7 +46,7 @@ public class FirstRunWindow implements SelectionListener {
       if(!d.readAndDispatch())d.sleep();
     d.dispose();
   }
-  
+
   private void centerWindow(Shell shell) {
     Monitor primary = d.getPrimaryMonitor();
     Rectangle bounds = primary.getBounds();
@@ -55,33 +55,33 @@ public class FirstRunWindow implements SelectionListener {
     int y = bounds.y + (bounds.height - rect.height) / 2;
     shell.setLocation(x, y);
   }
-  
+
   private void addUI () {  
     GridData gButtons = new GridData();
     gButtons.widthHint = 150;
-    
+
     GridData gClose = new GridData();
     gClose.widthHint = 150;
     gClose.horizontalSpan = 2;
     gClose.horizontalAlignment = SWT.RIGHT;
-    
+
     lCreateDB = new Label(window, SWT.WRAP);
-    lCreateDB.setText("Създава нова база от данни според изискванията");
-    
+    lCreateDB.setText("Create new database for application");
+
     bCreateDB = new Button(window, SWT.PUSH | SWT.RIGHT);
-    bCreateDB.setText("Създай БД");
+    bCreateDB.setText("Create DB");
     bCreateDB.setLayoutData(gButtons);
     bCreateDB.addSelectionListener(this);
     try {
       bCreateDB.setImage(new Image(window.getDisplay(), "icons" + File.separator + "db.png"));
     }
     catch (Exception e) {}
-    
+
     lCreateTable = new Label(window, SWT.WRAP);
-    lCreateTable.setText("Създава таблици според изисквания на БД");
-    
+    lCreateTable.setText("Create tables inside database");
+
     bCreateTable = new Button(window, SWT.PUSH | SWT.RIGHT);
-    bCreateTable.setText("Създай таблици");
+    bCreateTable.setText("Create tables");
     bCreateTable.setLayoutData(gButtons);
     bCreateTable.addSelectionListener(this);
     try {
@@ -89,13 +89,13 @@ public class FirstRunWindow implements SelectionListener {
     }
     catch (Exception e) {}
     bCreateTable.setEnabled(false);
-    
+
     bClose = new Button(window, SWT.PUSH);
-    bClose.setText("Затвори");
+    bClose.setText("Close");
     bClose.setLayoutData(gClose);
     bClose.addSelectionListener(this);
   }
-  
+
   public void widgetDefaultSelected (SelectionEvent event) {}
   public void widgetSelected (SelectionEvent event) {
     Object ev = event.getSource();

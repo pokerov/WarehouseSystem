@@ -8,7 +8,7 @@ import org.eclipse.swt.layout.*;
 import org.eclipse.swt.graphics.*;
 
 public class ConnectWindow implements SelectionListener, ShellListener {
-  
+
   private Shell window;
   private Label lAddress, lPort, lUser, lPassword;
   private Text tUser, tPassword;
@@ -21,19 +21,20 @@ public class ConnectWindow implements SelectionListener, ShellListener {
 
   public ConnectWindow(boolean isFirstRun) {
     firstRun = isFirstRun;
+//    firstRun = true;
     try {
       d = new Display();
     }
     catch (Exception e) {}
     window = new Shell(d, SWT.APPLICATION_MODAL | SWT.CLOSE);
-    window.setText("Свързване");
+    window.setText("Connection");
     window.setSize(300, 200);
     window.addShellListener(this);
     try {
       window.setImage(new Image(window.getDisplay(), "icons" + File.separator + "icon_big.png"));
     }
     catch (Exception e) {}
-    
+
     GridLayout layout = new GridLayout();
     layout.horizontalSpacing = 10;
     layout.verticalSpacing = 10;
@@ -43,19 +44,19 @@ public class ConnectWindow implements SelectionListener, ShellListener {
     layout.marginTop = 10;
     layout.numColumns = 2;
     window.setLayout(layout);
-    
+
     try {
       centerWindow(window);
     }
     catch (Exception e) {}
     addUI();
-    
+
     window.pack();
     window.open();
     while(!window.isDisposed())
       if(!d.readAndDispatch())d.sleep();
   }
-  
+
   private void centerWindow(Shell shell) {
     Monitor primary = d.getPrimaryMonitor();
     Rectangle bounds = primary.getBounds();
@@ -64,51 +65,51 @@ public class ConnectWindow implements SelectionListener, ShellListener {
     int y = bounds.y + (bounds.height - rect.height) / 2;
     shell.setLocation(x, y);
   }
-  
+
   private void addUI(){
     GridData data = new GridData();
     data.widthHint = 150;
-    
+
     lAddress = new Label(window, SWT.RIGHT);
-    lAddress.setText("Адрес на сървъра");
-    
+    lAddress.setText("MySQL Server address");
+
     cAddress = new Combo(window, SWT.DROP_DOWN);
     cAddress.setLayoutData(data);
     cAddress.setTextLimit(15);
     cAddress.setItems(new String[]{"127.0.0.1"});
-    
+
     lPort = new Label(window, SWT.RIGHT);
-    lPort.setText("Номер на порт");
-    
+    lPort.setText("Port number");
+
     cPort = new Combo(window, SWT.DROP_DOWN);
     cPort.setLayoutData(data);
     cPort.setTextLimit(5);
     cPort.setItems(new String[]{"3306"});
-    
+
     lUser = new Label(window, SWT.RIGHT);
-    lUser.setText("Потребителско име");
-    
+    lUser.setText("Username");
+
     tUser = new Text(window, SWT.SINGLE | SWT.BORDER);
     tUser.setLayoutData(data);
     tUser.setTextLimit(20);
-    tUser.setToolTipText("Име за достъп до MySQL база данни");
-    
+//    tUser.setToolTipText("Р�РјРµ Р·Р° РґРѕСЃС‚СЉРї РґРѕ MySQL Р±Р°Р·Р° РґР°РЅРЅРё");
+
     lPassword = new Label(window, SWT.RIGHT);
-    lPassword.setText("Парола");
-        
+    lPassword.setText("Password");
+
     tPassword = new Text(window, SWT.SINGLE | SWT.BORDER);
     tPassword.setLayoutData(data);
     tPassword.setTextLimit(20);
-    tPassword.setToolTipText("Парола за вписване");
-    
+//    tPassword.setToolTipText("РџР°СЂРѕР»Р° Р·Р° РІРїРёСЃРІР°РЅРµ");
+
     bCancel = new Button(window, SWT.PUSH);
-    bCancel.setText("Отказ");
+    bCancel.setText("Cancel");
     bCancel.setLayoutData(data);
     bCancel.setBackground(new Color(d, 255, 0, 0));
     bCancel.addSelectionListener(this);
-    
+
     bConnect = new Button(window, SWT.PUSH);
-    bConnect.setText("Свързване");
+    bConnect.setText("Connect");
     bConnect.setLayoutData(data);
     bConnect.setBackground(new Color(d, 0, 255, 0));
     bConnect.addSelectionListener(this);
@@ -120,28 +121,28 @@ public class ConnectWindow implements SelectionListener, ShellListener {
     cAddress.select(0);
     cPort.select(0);
     tUser.setText("root");
-    tPassword.setText("1234");
+    tPassword.setText("admin");
   }
-  
+
   private void setValues(String addr, String prt, String usr, String pwd) {
     cw_values[0] = addr;
     cw_values[1] = prt;
     cw_values[2] = usr;
     cw_values[3] = pwd;
   }
-  
+
   public String[] getValues(){
     return cw_values;
   }
-  
+
   private void setCancel(){
     cancel = true;
   }
-  
+
   public boolean isCancel(){
     return cancel;
   }
-  
+
     private boolean validateIP(String ip) {
         if (!ip.isEmpty()) {
             String pattern = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\." +
@@ -162,7 +163,7 @@ public class ConnectWindow implements SelectionListener, ShellListener {
         else if (tPassword.getText().isEmpty()) return false;
         else return true;
     }
-  
+
   public void widgetSelected(SelectionEvent event){
     Object e = event.getSource();
     if (e == bConnect) {
@@ -185,7 +186,7 @@ public class ConnectWindow implements SelectionListener, ShellListener {
     }
   }
   public void widgetDefaultSelected(SelectionEvent event){}
-  
+
   public void shellActivated(ShellEvent event) {}
   public void shellDeactivated(ShellEvent event) {}
   public void shellClosed(ShellEvent event) {
